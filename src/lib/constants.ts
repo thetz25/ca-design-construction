@@ -33,7 +33,7 @@ professionals such as Architects & Engineers. CA Designs aspire to
 create solutions depending on the need and dreams of every client in
 turning their dreams into reality.`,
   highlights: [
-    '15 Years of Excellence',
+    '5 Years of Excellence',
     'Multiple Projects Completed',
     'Winning Design Team',
     '100% Client Satisfaction',
@@ -92,9 +92,9 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 'project-3',
-    title: 'Luxury Penthouse Renovation',
+    title: 'Proposed Two-Storey Residential Building',
     category: 'Residential',
-    description: 'Complete transformation of a downtown penthouse with custom finishes and smart home integration.',
+    description: 'A proposed two-storey residential building designed with clean modern lines and functional spaces, providing a comfortable and efficient home environment..',
     image: '/images/projects/penthouse.jpg',
     featured: true,
   },
@@ -144,7 +144,7 @@ export const WHY_CHOOSE_US: WhyChooseUsItem[] = [
     id: 'experienced',
     icon: '🎯',
     title: 'Experienced Professionals',
-    description: 'Our team brings 15+ years of combined expertise. Each member is a specialist in their field.',
+    description: 'Our team brings 5+ years of combined expertise. Each member is a specialist in their field.',
   },
   {
     id: 'end-to-end',
