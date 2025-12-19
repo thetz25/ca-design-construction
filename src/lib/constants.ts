@@ -203,13 +203,7 @@ export const TESTIMONIALS: Testimonial[] = [
     content: 'From the initial design concepts to the final walkthrough, every step was handled with professionalism and expertise. The renovation exceeded all our expectations.',
     rating: 5,
   },
-  {
-    id: 4,
-    name: 'James Rodriguez',
-    role: 'Architect',
-    content: 'As a fellow architect, I appreciate their design excellence and construction quality. They\'re reliable partners in bringing innovative designs to life.',
-    rating: 5,
-  },
+  
 ]
 
 export const CONTACT_INFO = {
