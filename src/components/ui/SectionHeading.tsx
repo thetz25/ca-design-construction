@@ -27,7 +27,7 @@ export function SectionHeading({
         ></div>
       </div>
       <h2 className="text-h2 text-black mb-4">{title}</h2>
-      {subtitle && <p className="text-lg text-gray-600 max-w-2xl">{subtitle}</p>}
+      {subtitle && <p className={cn("text-lg text-gray-600 max-w-2xl", alignment === 'center' && "mx-auto")}>{subtitle}</p>}
     </div>
   )
 }
