@@ -54,16 +54,13 @@ export function Contact() {
                 <p className="text-gray-700 leading-relaxed">{COMPANY_INFO.address}</p>
               </div>
 
-              {/* Map Placeholder */}
+              {/* Map */}
               <div className="mt-8">
                 <h3 className="font-heading font-bold text-black mb-4">
                   {CONTACT_INFO.mapTitle}
                 </h3>
-                <div className="bg-gradient-to-br from-gold/20 to-gray-300 rounded-lg aspect-square flex items-center justify-center text-gray-600">
-                  <div className="text-center">
-                    <div className="text-4xl mb-2">📍</div>
-                    <p>Map Placeholder</p>
-                  </div>
+                <div className="rounded-lg overflow-hidden h-[300px] w-full border border-gray-200 shadow-md">
+                  <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1937.395937473274!2d121.0069457!3d13.7914164!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd0f0df9a655fb%3A0xb0f5342791177968!2sPENAWIN!5e0!3m2!1sen!2sph!4v1766153035975!5m2!1sen!2sph" width="100%" height="100%" style={{ border: 0 }} allowFullScreen={true} loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
                 </div>
               </div>
             </div>

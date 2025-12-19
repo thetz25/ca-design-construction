@@ -1,10 +1,6 @@
-import sgMail from '@sendgrid/mail'
+import nodemailer from 'nodemailer'
 import { isValidEmail, isValidPhone } from '@/lib/utils'
 import type { ContactFormData } from '@/lib/types'
-
-if (process.env.SENDGRID_API_KEY) {
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-}
 
 export async function POST(request: Request) {
   try {
@@ -48,18 +44,25 @@ export async function POST(request: Request) {
       message: data.message,
     })
 
-    // Send email via SendGrid
-    console.log('SendGrid check:', {
-      hasApiKey: !!process.env.SENDGRID_API_KEY,
-      contactEmail,
-      apiKeyPrefix: process.env.SENDGRID_API_KEY?.substring(0, 10),
+    // Configure Nodemailer for Gmail
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_APP_PASSWORD,
+      },
     })
 
-    if (process.env.SENDGRID_API_KEY && contactEmail) {
+    // Send email
+    if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD && contactEmail) {
       try {
-        const response = await sgMail.send({
+        await transporter.verify()
+        console.log('✅ SMTP connection verified')
+
+        const mailOptions = {
+          from: process.env.GMAIL_USER, // Gmail requires the sender to be the authenticated user
           to: contactEmail,
-          from: contactEmail,
+          replyTo: data.email, // Allow replying directly to the user
           subject: `New Contact Form Submission from ${data.name}`,
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -73,20 +76,31 @@ export async function POST(request: Request) {
               </p>
             </div>
           `,
-        })
+        }
 
-        console.log('✅ Email sent successfully via SendGrid:', response)
+        const info = await transporter.sendMail(mailOptions)
+        console.log('✅ Email sent successfully:', info.messageId)
       } catch (emailError) {
-        console.error('❌ Error sending email via SendGrid:', {
-          message: emailError instanceof Error ? emailError.message : String(emailError),
-          error: emailError,
-        })
+        console.error('❌ Error sending email:', emailError)
+        // We still return success to the user if everything else validated, 
+        // but log the error for the admin. 
+        // Or we could return an error to the user if email is critical.
+        // For now, let's treat it as a server error if email fails.
+         return Response.json(
+          {
+            success: false,
+            message: 'Failed to send email. Please try again later.',
+          },
+          { status: 500 }
+        )
       }
     } else {
-      console.warn('⚠️ SendGrid not configured:', {
-        hasApiKey: !!process.env.SENDGRID_API_KEY,
+      console.warn('⚠️ Gmail credentials or Contact Email not configured:', {
+        hasUser: !!process.env.GMAIL_USER,
+        hasPass: !!process.env.GMAIL_APP_PASSWORD,
         contactEmail,
       })
+      // If verification mode, we might want to return this info
     }
 
     return Response.json(
