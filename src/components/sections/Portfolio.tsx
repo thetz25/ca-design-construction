@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { PROJECTS } from '@/lib/constants'
 import { Container } from '@/components/ui/Container'
 import { SectionHeading } from '@/components/ui/SectionHeading'
@@ -27,12 +28,12 @@ export function Portfolio() {
             >
               <div className="group cursor-pointer h-full">
                 <div className="relative overflow-hidden rounded-lg bg-gray-200 aspect-square mb-4 transition-smooth">
-                  <div className="w-full h-full bg-gradient-to-br from-gold/20 to-gray-400 flex items-center justify-center group-hover:from-gold/40 group-hover:to-gray-500 transition-smooth">
-                    <div className="text-center text-white">
-                      <div className="text-6xl mb-2">📷</div>
-                      <p className="text-sm">Image Placeholder</p>
-                    </div>
-                  </div>
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-smooth"
+                  />
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
