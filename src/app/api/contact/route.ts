@@ -1,6 +1,10 @@
-import nodemailer from 'nodemailer'
+import sgMail from '@sendgrid/mail'
 import { isValidEmail, isValidPhone } from '@/lib/utils'
 import type { ContactFormData } from '@/lib/types'
+
+if (process.env.SENDGRID_API_KEY) {
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+}
 
 export async function POST(request: Request) {
   try {
@@ -36,8 +40,6 @@ export async function POST(request: Request) {
       )
     }
 
-    // For now, just log the submission
-    // In production, you'll need to configure email service
     console.log('📧 Contact form submission received:', {
       timestamp: new Date().toISOString(),
       name: data.name,
@@ -46,22 +48,12 @@ export async function POST(request: Request) {
       message: data.message,
     })
 
-    // TODO: Configure Gmail SMTP or another email service
-    // See .env.local for email configuration instructions
-    if (false && process.env.EMAIL_USER && process.env.EMAIL_PASSWORD) {
+    // Send email via SendGrid
+    if (process.env.SENDGRID_API_KEY && contactEmail) {
       try {
-        const transporter = nodemailer.createTransport({
-          service: 'gmail',
-          auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASSWORD,
-          },
-        })
-
-        // Send to admin
-        await transporter.sendMail({
-          from: process.env.EMAIL_USER,
+        await sgMail.send({
           to: contactEmail,
+          from: contactEmail,
           subject: `New Contact Form Submission from ${data.name}`,
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -77,9 +69,9 @@ export async function POST(request: Request) {
           `,
         })
 
-        console.log('✅ Admin email sent successfully')
+        console.log('✅ Email sent successfully via SendGrid')
       } catch (emailError) {
-        console.error('❌ Error sending email:', emailError)
+        console.error('❌ Error sending email via SendGrid:', emailError)
       }
     }
 
