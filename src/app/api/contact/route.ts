@@ -1,5 +1,9 @@
+import { Resend } from 'resend'
 import { isValidEmail, isValidPhone } from '@/lib/utils'
 import type { ContactFormData } from '@/lib/types'
+
+const resend = new Resend(process.env.RESEND_API_KEY)
+const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL
 
 export async function POST(request: Request) {
   try {
@@ -34,15 +38,94 @@ export async function POST(request: Request) {
       )
     }
 
-    // Here you would typically:
-    // 1. Save to database
-    // 2. Send email notification
-    // 3. Integrate with email service (SendGrid, Resend, etc.)
+    // Check if API key and contact email are configured
+    if (!process.env.RESEND_API_KEY) {
+      console.warn('Resend API key not configured. Logging submission instead.')
+      console.log('Contact form submission:', {
+        timestamp: new Date().toISOString(),
+        ...data,
+      })
+      return Response.json(
+        {
+          success: true,
+          message: 'Thank you for contacting us! We will be in touch soon.',
+        },
+        { status: 200 }
+      )
+    }
 
-    // For now, log the submission
+    if (!contactEmail) {
+      console.error('Contact email not configured')
+      return Response.json(
+        {
+          success: false,
+          message: 'Email service not properly configured.',
+        },
+        { status: 500 }
+      )
+    }
+
+    // Send email to admin
+    const adminEmail = await resend.emails.send({
+      from: 'CA Design <onboarding@resend.dev>',
+      to: contactEmail,
+      subject: `New Contact Form Submission from ${data.name}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2>New Contact Form Submission</h2>
+          <p><strong>Name:</strong> ${data.name}</p>
+          <p><strong>Email:</strong> ${data.email}</p>
+          <p><strong>Phone:</strong> ${data.phone}</p>
+          <p><strong>Message:</strong></p>
+          <p style="background-color: #f5f5f5; padding: 15px; border-radius: 5px;">
+            ${data.message.replace(/\n/g, '<br>')}
+          </p>
+          <hr>
+          <p style="color: #999; font-size: 12px;">
+            Submitted on: ${new Date().toLocaleString()}
+          </p>
+        </div>
+      `,
+    })
+
+    if (adminEmail.error) {
+      console.error('Error sending admin email:', adminEmail.error)
+      return Response.json(
+        {
+          success: false,
+          message: 'Failed to send email. Please try again later.',
+        },
+        { status: 500 }
+      )
+    }
+
+    // Send confirmation email to user
+    await resend.emails.send({
+      from: 'CA Design <onboarding@resend.dev>',
+      to: data.email,
+      subject: 'We received your message - CA Design + Construction',
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2>Thank you for contacting us!</h2>
+          <p>Hi ${data.name},</p>
+          <p>We have received your message and appreciate your interest in CA Design + Construction. Our team will review your submission and get back to you as soon as possible.</p>
+          <p><strong>Your Message:</strong></p>
+          <p style="background-color: #f5f5f5; padding: 15px; border-radius: 5px;">
+            ${data.message.replace(/\n/g, '<br>')}
+          </p>
+          <p>Best regards,<br><strong>CA Design + Construction Team</strong></p>
+          <hr>
+          <p style="color: #999; font-size: 12px;">
+            If you did not submit this form, please ignore this email.
+          </p>
+        </div>
+      `,
+    })
+
     console.log('Contact form submission:', {
       timestamp: new Date().toISOString(),
       ...data,
+      adminEmailId: adminEmail.data?.id,
     })
 
     return Response.json(
