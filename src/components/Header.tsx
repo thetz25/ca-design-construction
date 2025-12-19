@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { scrollToElement } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
 
@@ -34,17 +35,16 @@ export function Header() {
           {/* Logo */}
           <button
             onClick={() => handleNavClick('hero')}
-            className="flex items-center gap-2 group"
+            className="flex items-center gap-2 group hover:opacity-80 transition-opacity"
           >
-            <div className="w-10 h-10 bg-gradient-to-br from-gold to-yellow-600 rounded flex items-center justify-center shadow-lg group-hover:shadow-gold/50 transition-shadow">
-              <span className="font-heading font-bold text-black text-lg">CA</span>
-            </div>
-            <div className="hidden sm:block">
-              <p className="font-heading font-bold text-gold text-sm leading-tight">CA Design</p>
-              <p className="font-heading font-bold text-white text-xs leading-tight">
-                + Construction
-              </p>
-            </div>
+            <Image
+              src="/logo.jpg"
+              alt="CA Design + Construction"
+              width={48}
+              height={48}
+              className="h-12 w-auto rounded"
+              priority
+            />
           </button>
 
           {/* Desktop Navigation */}
