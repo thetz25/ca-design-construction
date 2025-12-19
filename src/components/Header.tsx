@@ -45,6 +45,12 @@ export function Header() {
               className="h-12 w-auto rounded"
               priority
             />
+            <div className="hidden sm:block">
+              <p className="font-heading font-bold text-gold text-sm leading-tight">CA Design</p>
+              <p className="font-heading font-bold text-white text-xs leading-tight">
+                + Construction
+              </p>
+            </div>
           </button>
 
           {/* Desktop Navigation */}
