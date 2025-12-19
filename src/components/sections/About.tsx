@@ -2,7 +2,6 @@
 
 import { ABOUT_CONTENT, COMPANY_INFO } from '@/lib/constants'
 import { Container } from '@/components/ui/Container'
-import { SectionHeading } from '@/components/ui/SectionHeading'
 import { ScrollReveal } from '@/components/animations/ScrollReveal'
 
 export function About() {
