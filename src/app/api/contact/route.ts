@@ -89,18 +89,21 @@ export async function POST(request: Request) {
     })
 
     if (adminEmail.error) {
-      console.error('Error sending admin email:', adminEmail.error)
+      console.error('❌ Error sending admin email:', JSON.stringify(adminEmail.error, null, 2))
+      console.error('Email details:', { to: contactEmail, from: 'CA Design <onboarding@resend.dev>' })
       return Response.json(
         {
           success: false,
-          message: 'Failed to send email. Please try again later.',
+          message: `Failed to send email: ${JSON.stringify(adminEmail.error)}`,
         },
         { status: 500 }
       )
     }
 
+    console.log('✅ Admin email sent successfully:', adminEmail.data?.id)
+
     // Send confirmation email to user
-    await resend.emails.send({
+    const confirmEmail = await resend.emails.send({
       from: 'CA Design <onboarding@resend.dev>',
       to: data.email,
       subject: 'We received your message - CA Design + Construction',
@@ -121,6 +124,12 @@ export async function POST(request: Request) {
         </div>
       `,
     })
+
+    if (confirmEmail.error) {
+      console.warn('⚠️ Error sending confirmation email:', JSON.stringify(confirmEmail.error, null, 2))
+    } else {
+      console.log('✅ Confirmation email sent successfully:', confirmEmail.data?.id)
+    }
 
     console.log('Contact form submission:', {
       timestamp: new Date().toISOString(),
