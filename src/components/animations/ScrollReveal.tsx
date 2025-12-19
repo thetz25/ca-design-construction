@@ -9,6 +9,7 @@ interface ScrollRevealProps {
   delay?: number
   duration?: number
   once?: boolean
+  className?: string
 }
 
 export function ScrollReveal({
@@ -17,6 +18,7 @@ export function ScrollReveal({
   delay = 0,
   duration = 0.8,
   once = true,
+  className,
 }: ScrollRevealProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once, margin: '-100px' })
@@ -43,6 +45,7 @@ export function ScrollReveal({
       animate={isInView ? 'visible' : 'hidden'}
       variants={animationVariants[animation]}
       transition={{ delay, duration, ease: 'easeOut' }}
+      className={className}
     >
       {children}
     </motion.div>
