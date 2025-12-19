@@ -49,9 +49,15 @@ export async function POST(request: Request) {
     })
 
     // Send email via SendGrid
+    console.log('SendGrid check:', {
+      hasApiKey: !!process.env.SENDGRID_API_KEY,
+      contactEmail,
+      apiKeyPrefix: process.env.SENDGRID_API_KEY?.substring(0, 10),
+    })
+
     if (process.env.SENDGRID_API_KEY && contactEmail) {
       try {
-        await sgMail.send({
+        const response = await sgMail.send({
           to: contactEmail,
           from: contactEmail,
           subject: `New Contact Form Submission from ${data.name}`,
@@ -69,10 +75,18 @@ export async function POST(request: Request) {
           `,
         })
 
-        console.log('✅ Email sent successfully via SendGrid')
+        console.log('✅ Email sent successfully via SendGrid:', response)
       } catch (emailError) {
-        console.error('❌ Error sending email via SendGrid:', emailError)
+        console.error('❌ Error sending email via SendGrid:', {
+          message: emailError instanceof Error ? emailError.message : String(emailError),
+          error: emailError,
+        })
       }
+    } else {
+      console.warn('⚠️ SendGrid not configured:', {
+        hasApiKey: !!process.env.SENDGRID_API_KEY,
+        contactEmail,
+      })
     }
 
     return Response.json(

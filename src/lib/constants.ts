@@ -2,15 +2,15 @@ import { Service, Project, Testimonial, ProcessStep, WhyChooseUsItem } from './t
 
 export const COMPANY_INFO = {
   name: 'CA Design + Construction',
-  tagline: 'Building Dreams with Precision',
+  tagline: 'Your Dreams We Build',
   shortDescription: 'Premium architectural design and construction services for discerning clients',
-  yearsInBusiness: 15,
-  phone: '+1 (555) 123-4567',
-  email: 'info@cadesign.com',
-  address: '123 Design Street, Architecture City, AC 12345',
+  yearsInBusiness: 5,
+  phone: '+63-998-999-8532',
+  email: 'cahomedesigns00@gmail.com',
+  address: '2nd floor Unit 1 Penawin Bldg. San Jose St. Cor. Binay St. Pob3 Bauan, Batangas',
   social: {
-    facebook: '#',
-    instagram: '#',
+    facebook: 'https://www.facebook.com/cahomedesigns',
+    instagram: 'https://www.instagram.com/cadesignconstruction/',
     linkedin: '#',
     twitter: '#',
   },
@@ -25,13 +25,17 @@ export const HERO_CONTENT = {
 
 export const ABOUT_CONTENT = {
   headline: 'About CA Design + Construction',
-  description: `With over 15 years of excellence in design and construction, CA Design + Construction has established itself as a leader in premium architectural and building services. Our team combines innovative design thinking with meticulous project execution to deliver spaces that exceed expectations.
-
-We believe every project tells a story. From initial consultation through final handover, we partner with our clients to bring their vision to life with the highest standards of craftsmanship and attention to detail.`,
+  description: `CA Designs (CAD Construction Services) was founded by a young
+and passionate Draftsman in February 2021. It offers Good Quality
+Designs, Budget Friendly & Professional Personnels, which aims to
+provide excellent designs and services through the help of allied
+professionals such as Architects & Engineers. CA Designs aspire to
+create solutions depending on the need and dreams of every client in
+turning their dreams into reality.`,
   highlights: [
-    '15+ Years of Excellence',
-    '500+ Projects Completed',
-    'Award-Winning Design Team',
+    '15 Years of Excellence',
+    'Multiple Projects Completed',
+    'Winning Design Team',
     '100% Client Satisfaction',
   ],
 }
@@ -39,13 +43,13 @@ We believe every project tells a story. From initial consultation through final 
 export const SERVICES: Service[] = [
   {
     id: 'architectural-design',
-    title: 'Architectural Design',
+    title: 'Design & Drafting',
     description: 'Custom architectural plans tailored to your vision. From concept to detailed blueprints, we create designs that are both beautiful and functional.',
     icon: '🏛️',
   },
   {
     id: 'construction-management',
-    title: 'Construction & Project Management',
+    title: 'Construction Services',
     description: 'Expert project management from start to finish. We handle all aspects of construction with precision, transparency, and adherence to timeline and budget.',
     icon: '🏗️',
   },
@@ -72,17 +76,17 @@ export const SERVICES: Service[] = [
 export const PROJECTS: Project[] = [
   {
     id: 'project-1',
-    title: 'Modern Residential Estate',
+    title: 'Proposed Sto. Domingo Chapel',
     category: 'Residential',
-    description: 'A stunning contemporary home featuring clean lines, premium materials, and seamless indoor-outdoor living.',
+    description: 'A modern chapel combining clean geometry with warm natural stone to create a welcoming, dignified place of worship.',
     image: '/images/projects/modern-estate.jpg',
     featured: true,
   },
   {
     id: 'project-2',
-    title: 'Corporate Office Headquarters',
+    title: 'Proposed one-storey coffee shop building ',
     category: 'Commercial',
-    description: 'State-of-the-art office space designed for collaboration and innovation with sustainable building practices.',
+    description: 'A modern tropical minimalist coffee shop featuring fluid white forms, arched openings, and integrated indoor-outdoor spaces, creating a relaxed yet sophisticated café experience set against lush palm-filled surroundings.',
     image: '/images/projects/corporate-office.jpg',
     featured: true,
   },
