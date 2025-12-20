@@ -100,14 +100,27 @@ export function Lightbox({
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.9, opacity: 0 }}
                         onClick={(e) => e.stopPropagation()}
-                        className="relative w-full h-full max-w-5xl max-h-[85vh] flex items-center justify-center"
+                        drag="x"
+                        dragConstraints={{ left: 0, right: 0 }}
+                        dragElastic={1}
+                        onDragEnd={(e, { offset, velocity }) => {
+                            const swipeConfidenceThreshold = 10000
+                            const swipePower = Math.abs(offset.x) * velocity.x
+
+                            if (swipePower < -swipeConfidenceThreshold) {
+                                handleNext()
+                            } else if (swipePower > swipeConfidenceThreshold) {
+                                handlePrev()
+                            }
+                        }}
+                        className="relative w-full h-full max-w-5xl max-h-[85vh] flex items-center justify-center cursor-grab active:cursor-grabbing"
                     >
                         <div className="relative w-full h-full">
                             <Image
                                 src={images[currentIndex]}
                                 alt={`Gallery image ${currentIndex + 1}`}
                                 fill
-                                className="object-contain"
+                                className="object-contain pointer-events-none" // prevent image drag interfering
                                 priority
                             />
                         </div>
