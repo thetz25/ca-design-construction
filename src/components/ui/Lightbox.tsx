@@ -99,7 +99,10 @@ export function Lightbox({
                         initial={{ scale: 0.9, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.9, opacity: 0 }}
-                        onClick={(e) => e.stopPropagation()}
+                        onClick={(e) => {
+                            e.stopPropagation()
+                            handleNext()
+                        }}
                         drag="x"
                         dragConstraints={{ left: 0, right: 0 }}
                         dragElastic={1}
