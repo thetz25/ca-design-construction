@@ -1,13 +1,36 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { PROJECTS } from '@/lib/constants'
 import { Container } from '@/components/ui/Container'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { ScrollReveal } from '@/components/animations/ScrollReveal'
+import { Lightbox } from '@/components/ui/Lightbox'
 
 export function Portfolio() {
+  const [selectedProject, setSelectedProject] = useState<typeof PROJECTS[0] | null>(null)
+  const [galleryImages, setGalleryImages] = useState<string[]>([])
   const featuredProjects = PROJECTS.filter((p) => p.featured).slice(0, 3)
+
+  useEffect(() => {
+    if (selectedProject) {
+      // Start with the main image
+      setGalleryImages([selectedProject.image])
+
+      // Fetch gallery from API
+      fetch(`/api/gallery?projectId=${selectedProject.id}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.images && data.images.length > 0) {
+            setGalleryImages(data.images)
+          }
+        })
+        .catch(err => console.error('Failed to load gallery:', err))
+    } else {
+      setGalleryImages([])
+    }
+  }, [selectedProject])
 
   return (
     <section id="portfolio" className="section-padding bg-white">
@@ -26,7 +49,10 @@ export function Portfolio() {
               delay={index * 0.15}
               duration={0.8}
             >
-              <div className="group cursor-pointer h-full">
+              <div
+                className="group cursor-pointer h-full"
+                onClick={() => setSelectedProject(project)}
+              >
                 <div className="relative overflow-hidden rounded-lg bg-gray-200 aspect-square mb-4 transition-smooth">
                   <Image
                     src={project.image}
@@ -34,6 +60,12 @@ export function Portfolio() {
                     fill
                     className="object-cover group-hover:scale-105 transition-smooth"
                   />
+                  {/* Overlay Hint */}
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <span className="bg-white/90 text-black px-4 py-2 rounded-full text-sm font-bold shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                      View Gallery
+                    </span>
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
@@ -60,6 +92,12 @@ export function Portfolio() {
           </a>
         </div>
       </Container>
+
+      <Lightbox
+        images={galleryImages}
+        isOpen={!!selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
     </section>
   )
 }

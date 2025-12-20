@@ -80,6 +80,11 @@ export const PROJECTS: Project[] = [
     category: 'Residential',
     description: 'A modern chapel combining clean geometry with warm natural stone to create a welcoming, dignified place of worship.',
     image: '/images/projects/modern-estate.jpg',
+    gallery: [
+      '/images/projects/modern-estate.jpg',
+      '/images/projects/corporate-office.jpg',
+      '/images/projects/penthouse.jpg'
+    ],
     featured: true,
   },
   {
@@ -88,6 +93,11 @@ export const PROJECTS: Project[] = [
     category: 'Commercial',
     description: 'A modern tropical minimalist coffee shop featuring fluid white forms, arched openings, and integrated indoor-outdoor spaces, creating a relaxed yet sophisticated café experience set against lush palm-filled surroundings.',
     image: '/images/projects/corporate-office.jpg',
+    gallery: [
+      '/images/projects/corporate-office.jpg',
+      '/images/projects/retail-complex.jpg',
+      '/images/projects/urban-loft.jpg'
+    ],
     featured: true,
   },
   {
@@ -96,6 +106,11 @@ export const PROJECTS: Project[] = [
     category: 'Residential',
     description: 'A proposed two-storey residential building designed with clean modern lines and functional spaces, providing a comfortable and efficient home environment..',
     image: '/images/projects/penthouse.jpg',
+    gallery: [
+      '/images/projects/penthouse.jpg',
+      '/images/projects/hillside-villa.jpg',
+      '/images/projects/modern-estate.jpg'
+    ],
     featured: true,
   },
   {
@@ -104,6 +119,10 @@ export const PROJECTS: Project[] = [
     category: 'Commercial',
     description: 'Mixed-use retail development featuring modern architecture and visitor-friendly design.',
     image: '/images/projects/retail-complex.jpg',
+    gallery: [
+      '/images/projects/retail-complex.jpg',
+      '/images/projects/corporate-office.jpg'
+    ]
   },
   {
     id: 'project-5',
@@ -111,6 +130,10 @@ export const PROJECTS: Project[] = [
     category: 'Residential',
     description: 'Architectural masterpiece blending luxury and landscape with breathtaking views.',
     image: '/images/projects/hillside-villa.jpg',
+    gallery: [
+      '/images/projects/hillside-villa.jpg',
+      '/images/projects/penthouse.jpg'
+    ]
   },
   {
     id: 'project-6',
@@ -118,6 +141,10 @@ export const PROJECTS: Project[] = [
     category: 'Residential',
     description: 'Industrial warehouse transformed into stylish urban living spaces.',
     image: '/images/projects/urban-loft.jpg',
+    gallery: [
+      '/images/projects/urban-loft.jpg',
+      '/images/projects/modern-estate.jpg'
+    ]
   },
 ]
 
@@ -203,7 +230,7 @@ export const TESTIMONIALS: Testimonial[] = [
     content: 'From the initial design concepts to the final walkthrough, every step was handled with professionalism and expertise. The renovation exceeded all our expectations.',
     rating: 5,
   },
-  
+
 ]
 
 export const CONTACT_INFO = {
@@ -226,9 +253,9 @@ export const FOOTER_CONTENT = {
     { label: 'Contact', href: '#contact' },
   ],
   socialLinks: [
-    { label: 'Facebook', url: '#' },
-    { label: 'Instagram', url: '#' },
-    { label: 'LinkedIn', url: '#' },
-    { label: 'Twitter', url: '#' },
+    { label: 'Facebook', url: COMPANY_INFO.social.facebook },
+    { label: 'Instagram', url: COMPANY_INFO.social.instagram },
+    { label: 'LinkedIn', url: COMPANY_INFO.social.linkedin },
+    { label: 'Twitter', url: COMPANY_INFO.social.twitter },
   ],
 }

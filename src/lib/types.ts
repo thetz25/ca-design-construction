@@ -11,6 +11,7 @@ export interface Project {
   category: string
   description: string
   image: string
+  gallery?: string[]
   featured?: boolean
 }
 
